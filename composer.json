@@ -1,0 +1,15 @@
+{
+    "name": "alewea/mymoney",
+    "autoload": {
+        "psr-4": {
+            "Alewea\\Mymoney\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AlessandroWea",
+            "email": "atribun14@gmail.com"
+        }
+    ],
+    "require": {}
+}

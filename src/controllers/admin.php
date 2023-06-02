@@ -4,8 +4,8 @@ namespace Alewea\Mymoney\controllers;
 
 class Admin
 {
-    public function dashboard()
+    public function index()
     {
-        echo 'Admin controller, method dashboard';
+        echo 'Admin controller, method index';
     }
 }

@@ -19,9 +19,7 @@ class App
 
         if($parts[0] != ''){
             if(count($parts) < 2){
-                // $controller_name = '_404';
-                // $method_name = 'index';
-                die('404 Error page');
+                $controller_name = array_shift($parts);
             }else {
                 $controller_name = array_shift($parts);
                 $method_name = array_shift($parts);
@@ -38,7 +36,8 @@ class App
         }
         catch(\ReflectionException $e)
         {
-            echo $e->getMessage();
+            echo '<h1>404 Not found</h1>';
+            echo '<p>' . $e->getMessage() . '</p>';
             //show 404 error page
             die;
         }

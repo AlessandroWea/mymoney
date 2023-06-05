@@ -10,6 +10,10 @@
         body {
             background-color: antiquewhite;
         }
+
+        .float-end {
+
+        }
     </style>
 </head>
 <body>
@@ -20,19 +24,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Analytics</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Smth</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Smth</a>
-        </li>
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Analytics</a>
+          </li>
+          <li class="ml-auto float-end">
+            <a class="nav-link" href="#">Exit</a>
+          </li>
       </ul>
     </div>
   </nav>   

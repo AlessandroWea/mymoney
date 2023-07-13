@@ -14,6 +14,18 @@ class Model extends Database
         return true;
     }
 
+    public function filter_cols(array $data) : array
+    {
+        foreach ($data as $key => $value) {
+            if(!in_array($key, static::$enabledCols))
+            {
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
+
     public function findAll()
     {
         $sql = 'SELECT * FROM ' . static::$tableName;
@@ -52,7 +64,7 @@ class Model extends Database
 
     public function add($arr)
     {
-
+        
     }
 
     public function update($id, $arr)

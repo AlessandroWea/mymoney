@@ -22,9 +22,18 @@ class Model extends Database
         return $ret->fetchAll();
     }
 
-    public function where($colName, $value)
+    public function where(array $arr = [])
     {
+        $sql = 'SELECT * FROM ' . static::$tableName . ' where ';
+        $keys = array_keys($arr);
+        foreach($keys as $key)
+        {
+            $sql .= "$key = :$key AND ";
+        }
 
+        $sql = trim($sql, ' AND');
+        $ret = $this->query($sql, $arr);
+        return $ret->fetchAll();
     }
 
     public function first(array $arr = [])

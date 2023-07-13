@@ -33,12 +33,12 @@ class Model extends Database
         $keys = array_keys($arr);
         foreach($keys as $key)
         {
-            $sql .= "$key =: $key AND ";
+            $sql .= "$key = :$key AND ";
         }
 
         $sql = trim($sql, ' AND');
         $ret = $this->query($sql, $arr);
-        return $ret->fetchAll();
+        return $ret->fetch();
     }
 
     public function add($arr)

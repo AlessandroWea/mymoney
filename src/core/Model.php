@@ -16,7 +16,10 @@ class Model extends Database
 
     public function findAll()
     {
+        $sql = 'SELECT * FROM ' . static::$tableName;
+        $ret = $this->query($sql);
 
+        return $ret->fetchAll();
     }
 
     public function where($colName, $value)
@@ -26,7 +29,7 @@ class Model extends Database
 
     public function first(array $arr = [])
     {
-        $sql = 'SELECT * FROM ' . self::$tableName . ' where ';
+        $sql = 'SELECT * FROM ' . static::$tableName . ' where ';
         $keys = array_keys($arr);
         foreach($keys as $key)
         {
@@ -34,7 +37,6 @@ class Model extends Database
         }
 
         $sql = trim($sql, ' AND');
-        dd($sql);die;
         $ret = $this->query($sql, $arr);
         return $ret->fetchAll();
     }

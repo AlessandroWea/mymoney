@@ -6,6 +6,8 @@ use Alewea\Mymoney\core\Model;
 
 class User extends Model
 {
+    static protected string $tableName = 'users';
+
     public array $errors = [];
 
     public function validate($data)
@@ -48,6 +50,6 @@ class User extends Model
 
     public function sign_up()
     {
-        
+
     }
 }

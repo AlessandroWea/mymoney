@@ -4,8 +4,9 @@ namespace Alewea\Mymoney\core;
 
 class Controller
 {
-    protected function view($filename)
+    protected function view($filename, $data = [])
     {
+        extract($data);
         $path = '../src/views/' . $filename . '.view.php';
         if(file_exists($path))
         {
@@ -15,5 +16,11 @@ class Controller
         {
             die('FILE "' . $path . '" NOT FOUND');
         }
+    }
+
+    public function redirect(string $path)
+    {
+		header('Location: '.$path);
+		exit();
     }
 }

@@ -10,10 +10,6 @@
         body {
             background-color: antiquewhite;
         }
-
-        .float-end {
-
-        }
     </style>
 </head>
 <body>
@@ -30,6 +26,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Analytics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
           </li>
           <li class="ml-auto float-end">
             <a class="nav-link" href="#">Exit</a>

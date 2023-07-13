@@ -1,5 +1,4 @@
 <?php $this->view('header');?>
-
 <div class="container d-flex justify-content-center align-items-center flex-column mt-2">
     <input style="width: 150px" type="date" name="" id="">
 
@@ -13,25 +12,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Income</td>
-      <td>Salary</td>
-      <td>30000</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Expensis</td>
-      <td>Food</td>
-      <td>1000</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="1">Expensis</td>
-      <td>Taxi</td>
-      <td>150</td>
-
-    </tr>
+    <?php $num = 0 ?>
+    <?php foreach($rows as $row): $num++?>
+      <tr>
+        <th scope="row"><?=$num?></th>
+        <td><?=$row['type']?></td>
+        <td><?=$row['category']?></td>
+        <td><?=$row['value']?></td>
+      </tr>
+    <?php endforeach; ?>
   </tbody>
 </table>
 <button class="btn btn-success" style="width:100px"type="button">Add</button>

@@ -64,15 +64,16 @@ class Model extends Database
 
     public function add($arr)
     {
+        $arr = $this->filter_cols($arr);
         $keys = array_keys($arr);
 
         $cols = implode(',', $keys);
         $vals = ':' . implode(',:', $keys);
         $sql = 'INSERT INTO ' . static::$tableName . ' (' . $cols . ') VALUES (' . $vals . ')';
-
         $ret = $this->query($sql, $arr);
-
-        return $ret;
+        
+        return Database::$db->lastinsertid();
+        
     }
 
     public function update($id, $arr)

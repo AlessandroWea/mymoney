@@ -7,6 +7,7 @@ use Alewea\Mymoney\core\Model;
 class User extends Model
 {
     static protected string $tableName = 'users';
+    static public array $enabledCols = ['username', 'email', 'password'];
 
     public array $errors = [];
 
@@ -46,10 +47,5 @@ class User extends Model
         } 
 
         return empty($this->errors) ? true : false;
-    }
-
-    public function sign_up()
-    {
-
     }
 }

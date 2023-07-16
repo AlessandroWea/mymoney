@@ -20,7 +20,7 @@ class Signup extends Controller
                 $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
                 //sign up
-                $user->sign_up($_POST);
+                $user->add($_POST);
 
                 //redirect
                 $this->redirect('login');

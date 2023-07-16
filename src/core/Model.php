@@ -86,7 +86,7 @@ class Model extends Database
         $cols = trim($cols, ' AND');
 
         $sql = 'UPDATE ' . static::$tableName . ' SET ' . $cols . ' WHERE id=:id';
-        
+
         $arr['id'] = $id;
         $ret = $this->query($sql, $arr);
 
@@ -95,6 +95,9 @@ class Model extends Database
 
     public function delete($id)
     {
+        $sql = 'DELETE FROM ' . static::$tableName . ' WHERE id=:id';
+        $ret = $this->query($sql, ['id'=>$id]);
 
+        return $ret;
     }
 }

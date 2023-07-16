@@ -6,15 +6,19 @@ use \PDO;
 
 class Database
 {
-    public function connect()
-    {
-        return new PDO('mysql:host='. DB_HOST .';dbname=' . DB_NAME, DB_USER, DB_PWD);
+    public static $db = null;
 
+    public static function connect()
+    {
+        if(static::$db == null)
+            return new PDO('mysql:host='. DB_HOST .';dbname=' . DB_NAME, DB_USER, DB_PWD);
+        
+        return static::$db;
     }
 
     public function query($sql, $arr = [])
     {
-        $db = $this->connect();
+        $db = Database::connect();
         $query = $db->prepare($sql);
         $query->execute($arr);
         $errInfo = $query->errorInfo();
@@ -34,6 +38,7 @@ class Database
                 id int NOT NULL AUTO_INCREMENT,
                 username varchar(256) NOT NULL,
                 email varchar(256) NOT NULL,
+                password varchar(256) NOT NULL,
                 PRIMARY KEY (id)
             );
         ";

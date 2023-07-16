@@ -77,7 +77,20 @@ class Model extends Database
 
     public function update($id, $arr)
     {
+        //UPDATE users SET last_name = :last_name WHERE id = 4
+        $cols = '';
+        foreach($arr as $key => $value)
+        {
+            $cols .= $key . '=:' . $key . ' AND';
+        }
+        $cols = trim($cols, ' AND');
 
+        $sql = 'UPDATE ' . static::$tableName . ' SET ' . $cols . ' WHERE id=:id';
+        
+        $arr['id'] = $id;
+        $ret = $this->query($sql, $arr);
+
+        return $ret;
     }
 
     public function delete($id)

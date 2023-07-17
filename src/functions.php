@@ -11,3 +11,8 @@ function post($key, $default = '')
 {
     return isset($_POST[$key]) ? $_POST[$key] : $default;
 }
+
+function path($path)
+{
+    return $path;
+}

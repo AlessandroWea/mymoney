@@ -39,6 +39,8 @@ class Database
                 username varchar(256) NOT NULL,
                 email varchar(256) NOT NULL,
                 password varchar(256) NOT NULL,
+                role int(1) NOT NULL,
+                date datetime DEFAULT CURRENT_TIMESTAMP(),
                 PRIMARY KEY (id)
             );
         ";
@@ -84,7 +86,7 @@ class Database
                 category_id int NOT NULL,
                 account_id int NOT NULL,
                 value int NOT NULL,
-                date datetime DEFAULT CURRENT_TIMESTAMP(),
+                date DATE NOT NULL,
                 PRIMARY KEY (id)
             );
         ";

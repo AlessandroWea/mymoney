@@ -16,7 +16,6 @@ class App
 
         $controller_name = $this->default_controller;
         $method_name = $this->default_method;
-
         if($parts[0] != ''){
             if(count($parts) < 2){
                 $controller_name = array_shift($parts);

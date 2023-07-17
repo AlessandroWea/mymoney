@@ -20,7 +20,12 @@ class Controller
 
     public function redirect(string $path)
     {
-		header('Location: '.$path);
+		header('Location: /'.$path);
 		exit();
+    }
+
+    public function isPost() : bool
+    {
+        return ($_SERVER['REQUEST_METHOD'] == 'POST');
     }
 }

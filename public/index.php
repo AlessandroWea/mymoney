@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 define('ROOT', dirname(__FILE__));
 define('SERVER_PATH', '/');
 

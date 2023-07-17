@@ -16,15 +16,14 @@
     <?php foreach($rows as $row): $num++?>
       <tr>
         <th scope="row"><?=$num?></th>
-        <td><?=$row['type']?></td>
-        <td><?=$row['category']?></td>
+        <td><?=$row['type'] ? 'Expensis' : 'Income'?></td>
+        <td><?=$row['category_name']?></td>
         <td><?=$row['value']?></td>
       </tr>
     <?php endforeach; ?>
   </tbody>
 </table>
-<button class="btn btn-success" style="width:100px"type="button">Add</button>
+<a href="<?=path('main/add');?>" class="btn btn-success" style="width:100px"type="button">Add</a>
 
 </div>
-
 <?php $this->view('footer');?>

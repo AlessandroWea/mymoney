@@ -71,7 +71,6 @@ class Model extends Database
         $vals = ':' . implode(',:', $keys);
         $sql = 'INSERT INTO ' . static::$tableName . ' (' . $cols . ') VALUES (' . $vals . ')';
         $ret = $this->query($sql, $arr);
-        
         return Database::$db->lastinsertid();
         
     }

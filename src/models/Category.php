@@ -14,4 +14,9 @@ class Category extends Model
 
     public array $errors = [];
 
+    public static function strTypeToIntType(string $type)
+    {
+        return $type == 'income' ? self::$TYPE_INCOME : self::$TYPE_EXPENSIS;
+    }
+
 }

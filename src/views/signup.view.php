@@ -1,4 +1,4 @@
-<?php $this->view('header');?>
+<?php $this->view('header', compact('page_name'));?>
 
 <style>
  .fs-1-5 {

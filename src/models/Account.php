@@ -22,4 +22,29 @@ class Account extends Model
 
         return empty($this->errors) ? true : false;
     }
+
+    public function update_value_plus($account_id, $value)
+    {
+        $sql = "UPDATE accounts SET value = value + :value WHERE id = :account_id";
+
+        $ret = $this->query($sql, [
+            'account_id' => $account_id,
+            'value' => $value,
+        ]);
+
+        return $ret;
+    }
+
+    public function update_value_minus($account_id, $value)
+    {
+        $sql = "UPDATE accounts SET value = value - :value WHERE id = :account_id";
+
+        $ret = $this->query($sql, [
+            'account_id' => $account_id,
+            'value' => $value,
+        ]);
+
+        return $ret;
+    }
+
 }

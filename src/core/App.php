@@ -31,7 +31,13 @@ class App
             $reflectionObject = new \ReflectionClass('Alewea\Mymoney\controllers\\' . $controller_name);
             $object = $reflectionObject->newInstanceArgs();
             $method = $reflectionObject->getMethod($method_name);
-            return $method->invokeArgs($object, $parts);
+            if(!empty($parts[0])){
+                return $method->invokeArgs($object, $parts ?? []);
+            }
+            else
+            {
+                return $method->invoke($object);   
+            }
         }
         catch(\ReflectionException $e)
         {

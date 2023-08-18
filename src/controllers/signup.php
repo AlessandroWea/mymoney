@@ -40,6 +40,7 @@ class Signup extends Controller
 
         $this->view('signup', [
             'errors' => $user->errors,
+            'page_name' => 'signup',
         ]);
 
     }

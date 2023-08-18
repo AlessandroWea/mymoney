@@ -39,6 +39,7 @@ class Login extends Controller
 
         $this->view('login', [
             'errors' => $errors,
+            'page_name' => 'login'
         ]);
     }
 }

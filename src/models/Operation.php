@@ -44,4 +44,46 @@ class Operation extends Model
 
         return $ret->fetchAll();
     }
+
+    public function get_total_value_by_categories($account_id, $type, $start_date = '', $end_date = '')
+    {
+        if($start_date == '' && $end_date == '')
+        {
+            $sql = "SELECT categories.name AS category, SUM(value) as value
+                    FROM operations
+                    JOIN categories
+                    ON operations.category_id = categories.id
+                    WHERE account_id = :account_id AND
+                        type = :type 
+                    GROUP BY category;
+            ";
+
+            $ret = $this->query($sql, [
+                'account_id' => $account_id,
+                'type' => $type,
+            ]);
+        }
+        else
+        {
+            $sql = "SELECT categories.name AS category, SUM(value) as value
+                    FROM operations
+                    JOIN categories
+                    ON operations.category_id = categories.id
+                    WHERE account_id = :account_id AND
+                        date >= :start_date AND
+                        date < :end_date AND 
+                        type = :type 
+                    GROUP BY category;
+            ";
+
+            $ret = $this->query($sql, [
+                'account_id' => $account_id,
+                'type' => $type,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+            ]);
+        }
+
+        return $ret->fetchAll();
+    }
 }

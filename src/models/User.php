@@ -15,38 +15,52 @@ class User extends Model
     {
         $this->errors = [];
 
-        if(empty($data['username']))
-        {
-            $this->errors['username'] = 'Username must not be empty';
-        }
-        else if(strlen($data['username']) < 4)
-        {
-            $this->errors['username'] = 'Username must ccntain more than 4 chars';
-        }
-
-        if(empty($data['email']))
-        {
-            $this->errors['email'] = 'Email must not be empty';
-        }
-        else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
-        {
-            $this->errors['email'] = 'Email is invalid';
-        }
-
-        if(empty($data['password']))
-        {
-            $this->errors['password'] = 'Password must not be empty';
-        }
-        else if(strlen($data['password']) < 6)
-        {
-            $this->errors['password'] = 'Password is too short (6 min)';
-        }
-        else if($data['password'] !== $data['password2'])
-        {
-            $this->errors['password'] = 'Passwords do not match!';
-        } 
+        $this->validateUsername($data['username']);
+        $this->validateEmail($data['email']);
+        $this->validatePassword($data['password'], $data['password2']);
 
         return empty($this->errors) ? true : false;
     }
 
+    public function validateUsername($username = '')
+    {
+        if(empty($username))
+        {
+            $this->errors['username'] = 'Username must not be empty';
+        }
+        else if(strlen($username) < 4)
+        {
+            $this->errors['username'] = 'Username must ccntain more than 4 chars';
+        }
+    }
+
+    public function validateEmail($email = '')
+    {
+        if(empty($email))
+        {
+            $this->errors['email'] = 'Email must not be empty';
+        }
+        else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            $this->errors['email'] = 'Email is invalid';
+        }
+    }
+
+    public function validatePassword($password = '', $password2 = '')
+    {
+
+        if(empty($password))
+        {
+            $this->errors['password'] = 'Password must not be empty';
+        }
+        else if(strlen($password) < 6)
+        {
+            $this->errors['password'] = 'Password is too short (6 min)';
+        }
+        else if($password !== $password2)
+        {
+            $this->errors['password'] = 'Passwords do not match!';
+        } 
+    
+    }
 }

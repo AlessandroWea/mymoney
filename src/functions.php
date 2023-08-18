@@ -14,5 +14,5 @@ function post($key, $default = '')
 
 function path($path)
 {
-    return $path;
+    return '/' . $path;
 }

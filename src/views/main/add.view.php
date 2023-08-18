@@ -1,4 +1,4 @@
-<?php $this->view('header');?>
+<?php $this->view('header', compact('page_name'));?>
 
 <style>
     .info {
@@ -18,6 +18,7 @@
     <div class="row">
         <form method="post">
             <h1>Adding a new operation</h1>
+            <h3>Date: <?=$date;?></h2>
             <div class="text-center text-danger">
             <?= isset($errors['category_id']) ? $errors['category_id'] : '' ?>
         </div>
@@ -28,9 +29,13 @@
                 <select name="category_id" class="op-select" aria-label="Default select example">
                     <option value="" selected>Choose a category</option>
                     <option disabled value="">INCOME</option>
-                    <option value="1">Salary</option>
+                    <?php foreach($income_categories as $category): ?>
+                        <option value="<?=$category['id']?>"><?=$category['name']?></option>
+                    <?php endforeach;?>
                     <option disabled value="">EXPENSIS</option>
-                    <option value="2">Food</option>
+                    <?php foreach($expensis_categories as $category): ?>
+                        <option value="<?=$category['id']?>"><?=$category['name']?></option>
+                    <?php endforeach;?>
                 </select>
             </div>
 

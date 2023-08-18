@@ -81,12 +81,11 @@ class Model extends Database
         $cols = '';
         foreach($arr as $key => $value)
         {
-            $cols .= $key . '=:' . $key . ' AND';
+            $cols .= $key . '=:' . $key . ',';
         }
-        $cols = trim($cols, ' AND');
+        $cols = trim($cols, ',');
 
         $sql = 'UPDATE ' . static::$tableName . ' SET ' . $cols . ' WHERE id=:id';
-
         $arr['id'] = $id;
         $ret = $this->query($sql, $arr);
 

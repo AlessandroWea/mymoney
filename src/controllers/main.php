@@ -10,10 +10,13 @@ use Alewea\Mymoney\models\Operation;
 
 class Main extends Controller
 {
-    public function index()
+    public function runBefore()
     {
         Auth::logged_in() ? true : $this->redirect('login');
+    }
 
+    public function index()
+    {
         $operation = new Operation();
 
         $date = $_SESSION['active_date'] ?? date('Y-m-d');
@@ -58,8 +61,6 @@ class Main extends Controller
 
     public function add()
     {
-        Auth::logged_in() ? true : $this->redirect('login');
-
         $operation = new Operation();
         $account = new Account();
         $category = new Category();
@@ -102,7 +103,6 @@ class Main extends Controller
 
     public function edit($id = null)
     {
-        Auth::logged_in() ? true : $this->redirect('login');
         if(empty($id) || !is_numeric($id))
         {
             $this->redirect('wallet');
@@ -153,7 +153,6 @@ class Main extends Controller
 
     public function delete($id = null)
     {
-        Auth::logged_in() ? true : $this->redirect('login');
         if(empty($id) || !is_numeric($id))
         {
             $this->redirect('wallet');

@@ -31,6 +31,13 @@ class App
             $reflectionObject = new \ReflectionClass('Alewea\Mymoney\controllers\\' . $controller_name);
             $object = $reflectionObject->newInstanceArgs();
             $method = $reflectionObject->getMethod($method_name);
+
+            if(method_exists($object, 'runBefore'))
+            {
+                $beforeMethod = $reflectionObject->getMethod('runBefore');
+                $beforeMethod->invoke($object);
+            }
+
             if(!empty($parts[0])){
                 return $method->invokeArgs($object, $parts ?? []);
             }

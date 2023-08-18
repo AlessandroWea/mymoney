@@ -8,10 +8,13 @@ use Alewea\Mymoney\models\Account;
 
 class Wallet extends Controller
 {
-    public function index()
+    public function runBefore()
     {
         Auth::logged_in() ? true : $this->redirect('login');
+    }
 
+    public function index()
+    {
         $account = new Account();
         $accounts = $account->where([
             'user_id' => $_SESSION['USER']['id'],
@@ -32,8 +35,6 @@ class Wallet extends Controller
 
     public function add()
     {
-        Auth::logged_in() ? true : $this->redirect('login');
-
         $errors = [];
         $account = new Account();
 
@@ -57,8 +58,6 @@ class Wallet extends Controller
 
     public function edit($id = null)
     {
-        Auth::logged_in() ? true : $this->redirect('login');
-
         if(empty($id) || !is_numeric($id))
         {
             $this->redirect('wallet');
@@ -88,8 +87,6 @@ class Wallet extends Controller
 
     public function delete($id = null)
     {
-        Auth::logged_in() ? true : $this->redirect('login');
-
         if(empty($id) || !is_numeric($id))
         {
             $this->redirect('wallet');
@@ -113,8 +110,6 @@ class Wallet extends Controller
 
     public function switch($id = null)
     {
-        Auth::logged_in() ? true : $this->redirect('login');
-
         if(empty($id) || !is_numeric($id))
         {
             $this->redirect('wallet');

@@ -13,9 +13,13 @@ class Analytics extends Controller
         'this-month', 'last-month', 'this-year', 'last-year', 'all'
     ];
 
-    public function index()
+    public function runBefore()
     {
         Auth::logged_in() ? true : $this->redirect('login');
+    }
+
+    public function index()
+    {
         $page_name = 'analytics';
 
         $this->view('analytics/index', compact('page_name'));
@@ -23,8 +27,6 @@ class Analytics extends Controller
 
     public function overview($type = '')
     {
-        Auth::logged_in() ? true : $this->redirect('login');
-
         if(empty($type)) {$this->redirect('analytics');}
 
         $type = Category::strTypeToIntType($type);

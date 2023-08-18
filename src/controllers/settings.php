@@ -8,10 +8,13 @@ use Alewea\Mymoney\models\User;
 
 class Settings extends Controller
 {
-    public function index()
+    public function runBefore()
     {
         Auth::logged_in() ? true : $this->redirect('login');
+    }
 
+    public function index()
+    {
         $arr = [];
         $errors = [];
         $user = new User;

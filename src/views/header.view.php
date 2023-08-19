@@ -23,6 +23,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <?php if(Alewea\Mymoney\core\Auth::logged_in()): ?>
+            <?php $page_name = $page_name ?? ''?>
             <li class="nav-item <?=$page_name == 'main' ? 'active' : ''?>">
               <a class="nav-link" href="<?=path('main');?>">Home</a>
             </li>

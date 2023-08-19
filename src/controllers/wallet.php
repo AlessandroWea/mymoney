@@ -58,15 +58,15 @@ class Wallet extends Controller
 
     public function edit($id = null)
     {
-        if(empty($id) || !is_numeric($id))
-        {
-            $this->redirect('wallet');
-        }
         $errors = [];
         $account = new Account();
         $row = $account->first([
             'id' => $id,
+            'user_id' => $_SESSION['USER']['id'],
         ]);
+
+        // account wasnnot found
+        if(!$row) $this->redirect('wallet');
 
         if($this->isPost())
         {
@@ -87,15 +87,13 @@ class Wallet extends Controller
 
     public function delete($id = null)
     {
-        if(empty($id) || !is_numeric($id))
-        {
-            $this->redirect('wallet');
-        }
-
         $account = new Account();
         $row = $account->first([
             'id' => $id,
+            'user_id' => $_SESSION['USER']['id'],
         ]);
+
+        if(!$row) $this->redirect('wallet');
 
         if($this->isPost())
         {
@@ -110,11 +108,6 @@ class Wallet extends Controller
 
     public function switch($id = null)
     {
-        if(empty($id) || !is_numeric($id))
-        {
-            $this->redirect('wallet');
-        }
-
         $account = new Account;
         $row = $account->first([
             'id' => $id,

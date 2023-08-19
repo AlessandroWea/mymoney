@@ -103,18 +103,15 @@ class Main extends Controller
 
     public function edit($id = null)
     {
-        if(empty($id) || !is_numeric($id))
-        {
-            $this->redirect('wallet');
-        }
         $category = new Category;
         $account = new Account;
+        $operation = new Operation;
+
         $errors = [];
         $income_categories = $category->where(['type' => Category::$TYPE_INCOME]);
         $expensis_categories = $category->where(['type' => Category::$TYPE_EXPENSIS]);
 
-        $operation = new Operation;
-        $row = $operation->first(['id'=>$id]);
+        $row = $operation->first(['id'=>$id, 'account_id' => $_SESSION['ACTIVE_ACCOUNT']['id']]);
         if($row)
         {
             if($this->isPost())
@@ -140,43 +137,44 @@ class Main extends Controller
 
                 $errors = $operation->errors;
             }
-        }
 
-        $this->view('main/edit', [
-            'current_category_id' => $row['category_id'],
-            'value' => $row['value'],
-            'income_categories' => $income_categories,
-            'expensis_categories' => $expensis_categories,
-            'errors' => $errors,
-        ]);
+            $this->view('main/edit', [
+                'current_category_id' => $row['category_id'],
+                'value' => $row['value'],
+                'income_categories' => $income_categories,
+                'expensis_categories' => $expensis_categories,
+                'errors' => $errors,
+            ]);
+        }
+        else
+        {
+            $this->redirect('main');
+        }
     }
 
     public function delete($id = null)
     {
-        if(empty($id) || !is_numeric($id))
-        {
-            $this->redirect('wallet');
-        }
-
         $category = new Category;
         $account = new Account;
         $operation = new Operation;
     
-        $row = $operation->first(['id'=>$id]);
-
-        $type = $category->first(['id'=>$row['category_id']])['type'];
-        $active_account = $account->first(['id'=>$_SESSION['ACTIVE_ACCOUNT']['id']]);
-        if($type == Category::$TYPE_INCOME)
+        $row = $operation->first(['id'=>$id, 'account_id' => $_SESSION['ACTIVE_ACCOUNT']['id']]);
+        if($row)
         {
-            $new_value = $active_account['value'] - $row['value'] + $_POST['value'];
-        } else
-        {
-            $new_value = $active_account['value'] + $row['value'] - $_POST['value'];
+            $type = $category->first(['id'=>$row['category_id']])['type'];
+            $active_account = $account->first(['id'=>$_SESSION['ACTIVE_ACCOUNT']['id']]);
+            if($type == Category::$TYPE_INCOME)
+            {
+                $new_value = $active_account['value'] - $row['value'] + $_POST['value'];
+            } else
+            {
+                $new_value = $active_account['value'] + $row['value'] - $_POST['value'];
+            }
+    
+            $account->update($active_account['id'], ['value' => $new_value]);
+            $operation->delete($id);
         }
-
-        $account->update($active_account['id'], ['value' => $new_value]);
-        $operation->delete($id);
-
+        
         $this->redirect('main');
     }
 }

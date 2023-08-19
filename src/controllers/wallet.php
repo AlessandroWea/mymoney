@@ -45,6 +45,14 @@ class Wallet extends Controller
                 $_POST['user_id'] = $_SESSION['USER']['id'];
                 $account->add($_POST);
 
+                // switch to a new account if there were none before
+                if(empty($_SESSION['ACTIVE_ACCOUNT']))
+                {
+                    $_SESSION['ACTIVE_ACCOUNT']= $account->first([
+                        'user_id' => $_SESSION['USER']['id'],
+                    ]);
+                }
+
                 $this->redirect('wallet');
             }
 
@@ -98,6 +106,22 @@ class Wallet extends Controller
         if($this->isPost())
         {
             $account->delete($id);
+
+            // find an account to switch to
+            $new = $account->first([
+                'user_id' => $_SESSION['USER']['id'],
+            ]);
+
+            // there is an account available
+            if($new)
+            {
+                $_SESSION['ACTIVE_ACCOUNT'] = $new;
+            }
+            else // there is no accounts left
+            {
+                $_SESSION['ACTIVE_ACCOUNT'] = [];
+            }
+
             $this->redirect('wallet');
         }
 

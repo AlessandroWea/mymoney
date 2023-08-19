@@ -50,9 +50,9 @@
                 <span class="input-group-text fs-1-5" id="inputGroup-sizing-default">Password</span>
             </div>
             <?php if(isset($errors['password'])): ?>
-                <input name="password" type="text" class="form-control fs-1-5 border-danger">
+                <input name="password" type="password" class="form-control fs-1-5 border-danger">
             <?php else: ?>
-                <input name="password" type="text" class="form-control fs-1-5">
+                <input name="password" type="password" class="form-control fs-1-5">
             <?php endif; ?>
         </div>
 
@@ -65,9 +65,9 @@
                 <span class="input-group-text fs-1-5" id="inputGroup-sizing-default">Password repeat</span>
             </div>
             <?php if(isset($errors['password'])): ?>
-                <input name="password2" type="text" class="form-control fs-1-5 border-danger">
+                <input name="password2" type="password" class="form-control fs-1-5 border-danger">
             <?php else: ?>
-                <input name="password2" type="text" class="form-control fs-1-5">
+                <input name="password2" type="password" class="form-control fs-1-5">
             <?php endif; ?>
         </div>
         

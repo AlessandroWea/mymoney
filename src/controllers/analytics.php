@@ -34,6 +34,7 @@ class Analytics extends Controller
         $operation = new Operation();
         $total = 0;
         $dataPoints = [];
+        $data = [];
 
         if($this->isPost())
         {
@@ -43,37 +44,17 @@ class Analytics extends Controller
             }
         }
 
-        switch($date_type)
+        if(!empty($_SESSION['ACTIVE_ACCOUNT']))
         {
-            case 'this-month':
-                $start_date = date('Y-m-1');
-                $end_date = date('Y-m-1', strtotime(' + 1 month'));
-                break;
-            case 'last-month':
-                $start_date = date('Y-m-1', strtotime(' - 1 month'));
-                $end_date = date('Y-m-1');
-                break;
-            case 'this-year':
-                $start_date = date('Y-1-1');
-                $end_date = date('Y-1-1', strtotime(' + 1 year'));
-                break;
-            case 'last-year':
-                $start_date = date('Y-1-1', strtotime(' - 1 year'));
-                $end_date = date('Y-1-1');
-                break;
-            case 'all':
-                $start_date = '';
-                $end_date = '';
-                break;
-            default:
-                echo 'Never goes here'; die;
+            $range = $this->getDateRangeByType($date_type);
+           
+            $data = $operation->get_total_value_by_categories(
+                $_SESSION['ACTIVE_ACCOUNT']['id'],
+                $type == Category::$TYPE_INCOME ? Category::$TYPE_INCOME : Category::$TYPE_EXPENSIS,
+                $range['start_date'],
+                $range['end_date']);
         }
-
-        $data = $operation->get_total_value_by_categories(
-            $_SESSION['ACTIVE_ACCOUNT']['id'],
-            $type == Category::$TYPE_INCOME ? Category::$TYPE_INCOME : Category::$TYPE_EXPENSIS,
-            $start_date,
-            $end_date);
+        
         if($data)
         {
             foreach($data as $row)
@@ -97,5 +78,38 @@ class Analytics extends Controller
             'type' => $type,
             'dataPoints' => $dataPoints,
         ]);
+    }
+
+    public function getDateRangeByType(string $type)
+    {
+        $range = [];
+        switch($type)
+        {
+            case 'this-month':
+                $range['start_date'] = date('Y-m-1');
+                $range['end_date'] = date('Y-m-1', strtotime(' + 1 month'));
+                break;
+            case 'last-month':
+                $range['start_date'] = date('Y-m-1', strtotime(' - 1 month'));
+                $range['end_date'] = date('Y-m-1');
+                break;
+            case 'this-year':
+                $range['start_date'] = date('Y-1-1');
+                $range['end_date'] = date('Y-1-1', strtotime(' + 1 year'));
+                break;
+            case 'last-year':
+                $range['start_date'] = date('Y-1-1', strtotime(' - 1 year'));
+                $range['end_date'] = date('Y-1-1');
+                break;
+            case 'all':
+                $range['start_date'] = '';
+                $range['end_date'] = '';
+                break;
+            default:
+                $range['start_date'] = '';
+                $range['end_date'] = '';
+        }
+
+        return $range;
     }
 }

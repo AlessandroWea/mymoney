@@ -34,13 +34,20 @@
       <?php endforeach; ?>
     <?php else: ?>
         <tr>
+          <?php if(!empty($_SESSION['ACTIVE_ACCOUNT'])): ?>
             <td colspan="5" class="text-center"><h2>There were no operations yet!</h2></td>
+          <?php else:?>
+            <td colspan="5" class="text-center"><h2>Add an account to start adding operations!</h2></td>
+          <?php endif;?>
         </tr>
     <?php endif; ?>
   </tbody>
 </table>
-<a href="<?=path('main/add');?>" class="btn btn-success" style="width:100px"type="button">Add</a>
-
+<?php if(!empty($_SESSION['ACTIVE_ACCOUNT'])): ?>
+  <a href="<?=path('main/add');?>" class="btn btn-success" style="width:100px"type="button">Add</a>
+<?php else:?>
+  <button disabled class="btn btn-success" style="width:100px"type="button">Add</button>
+<?php endif;?>
 </div>
 <?php $this->view('footer');?>
 

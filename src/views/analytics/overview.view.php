@@ -90,9 +90,11 @@ chart.render();
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <tr>
-                    <td colspan="3" class="text-center"><h2>There were no operations yet!</h2></td>
-                </tr>
+                <?php if(!empty($_SESSION['ACTIVE_ACCOUNT'])): ?>
+                    <td colspan="5" class="text-center"><h2>There were no operations yet!</h2></td>
+                <?php else:?>
+                    <td colspan="5" class="text-center"><h2>Add an account first!</h2></td>
+                <?php endif;?>
             <?php endif; ?>
         </tbody>
     </table>

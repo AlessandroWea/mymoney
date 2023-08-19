@@ -10,15 +10,18 @@ use Alewea\Mymoney\models\Operation;
 
 class Main extends Controller
 {
-    public function runBefore()
+    public function runBefore($extra)
     {
         Auth::logged_in() ? true : $this->redirect('login');
+        
+        if(empty($_SESSION['ACTIVE_ACCOUNT']) && $extra['method'] !== 'index')
+            $this->redirect('main');
     }
 
     public function index()
     {
         $operation = new Operation();
-
+        $data = [];
         $date = $_SESSION['active_date'] ?? date('Y-m-d');
 
         if($this->isPost())
@@ -30,8 +33,11 @@ class Main extends Controller
             }
         }
 
-        $data = $operation->get_with_category($_SESSION['ACTIVE_ACCOUNT']['id'], $date);
-    
+        if(!empty($_SESSION['ACTIVE_ACCOUNT']))
+        {
+            $data = $operation->get_with_category($_SESSION['ACTIVE_ACCOUNT']['id'], $date);
+        }
+
         $total_income = $this->get_total(Category::$TYPE_INCOME, $data);
         $total_expensis = $this->get_total(Category::$TYPE_EXPENSIS, $data);
         $this->view('main/index', [

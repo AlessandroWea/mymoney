@@ -35,7 +35,7 @@ class App
             if(method_exists($object, 'runBefore'))
             {
                 $beforeMethod = $reflectionObject->getMethod('runBefore');
-                $beforeMethod->invoke($object);
+                $beforeMethod->invokeArgs($object, [['method' => $method_name]]);
             }
 
             if(!empty($parts[0])){

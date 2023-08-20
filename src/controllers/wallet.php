@@ -4,7 +4,9 @@ namespace Alewea\Mymoney\controllers;
 
 use Alewea\Mymoney\core\Auth;
 use Alewea\Mymoney\core\Controller;
+use Alewea\Mymoney\core\Database;
 use Alewea\Mymoney\models\Account;
+use Alewea\Mymoney\models\Operation;
 
 class Wallet extends Controller
 {
@@ -15,6 +17,7 @@ class Wallet extends Controller
 
     public function index()
     {
+        dd($_SESSION['ACTIVE_ACCOUNT']);
         $account = new Account();
         $accounts = $account->where([
             'user_id' => $_SESSION['USER']['id'],
@@ -105,13 +108,22 @@ class Wallet extends Controller
 
         if($this->isPost())
         {
-            $account->delete($id);
-
+            try {
+                Database::beginTransaction();
+                $account->delete($id);
+                $operation = new Operation;
+                $operation->deleteBy('account_id', $id);
+                Database::commit();
+            }
+            catch(\PDOException $e)
+            {
+                Database::rollBack();
+                throw $e; // ^_^
+            }
             // find an account to switch to
             $new = $account->first([
                 'user_id' => $_SESSION['USER']['id'],
             ]);
-
             // there is an account available
             if($new)
             {

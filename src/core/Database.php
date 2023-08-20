@@ -16,6 +16,22 @@ class Database
         return static::$db;
     }
 
+    public static function beginTransaction()
+    {
+        $db = Database::connect();
+        $db->beginTransaction();
+    }
+
+    public static function commit()
+    {
+        static::$db->commit();
+    }
+
+    public static function rollBack()
+    {
+        static::$db->rollBack();
+    }
+
     public function query($sql, $arr = [])
     {
         $db = Database::connect();

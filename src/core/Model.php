@@ -99,4 +99,12 @@ class Model extends Database
 
         return $ret;
     }
+
+    public function deleteBy($col, $val)
+    {
+        $sql = 'DELETE FROM ' . static::$tableName . " WHERE $col = :$col";
+        $ret = $this->query($sql, [$col=>$val]);
+
+        return $ret;
+    }
 }

@@ -16,27 +16,19 @@ class User extends Model
         $this->errors = [];
 
         $this->validateUsername($data['username']);
-        $this->isUsernameTaken($data['username']);
+        $this->exists('username', $data['username'], 'Username is already taken');
         $this->validateEmail($data['email']);
-        $this->isEmailTaken($data['email']);
+        $this->exists('email', $data['email'], 'Email is already taken');
         $this->validatePassword($data['password'], $data['password2']);
 
         return empty($this->errors) ? true : false;
     }
 
-    public function isUsernameTaken($username)
+    public function exists($field, $value, $errMsg = '')
     {
-        if($this->first(['username' => $username]))
+        if($this->first([$field => $value]))
         {
-            $this->errors['username'] = 'Username is already taken';
-        }
-    }
-
-    public function isEmailTaken($username)
-    {
-        if($this->first(['email' => $username]))
-        {
-            $this->errors['email'] = 'Email is already taken';
+            $this->errors[$field] = $errMsg;
         }
     }
 

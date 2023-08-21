@@ -19,19 +19,20 @@ class Settings extends Controller
         $errors = [];
         $user = new User;
         $row = $user->first(['id' => $_SESSION['USER']['id']]);
-
         if($this->isPost())
         {
             if($_POST['username'] !== $_SESSION['USER']['username'])
             {
                 $arr['username'] = $_POST['username'];
                 $user->validateUsername($_POST['username']);
+                $user->exists('username', $_POST['username'], 'Username is already taken');
             }
 
             if($_POST['email'] !== $_SESSION['USER']['email'])
             {
                 $arr['email'] = $_POST['email'];
                 $user->validateEmail($_POST['email']);
+                $user->exists('email', $_POST['email'], 'Email is already taken');
             }
 
             // if changing password
@@ -45,9 +46,9 @@ class Settings extends Controller
             if(empty($user->errors))
             {
                 $user->update($_SESSION['USER']['id'], $arr);
+                $_SESSION['USER'] = $user->first(['id' => $_SESSION['USER']['id']]);;
                 $this->redirect('settings');
             }
-
             $errors = $user->errors;
         }
 

@@ -10,7 +10,7 @@ class App
     public function run()
     {
         $uri = $_SERVER['REQUEST_URI'];
-
+        $uri = explode('?', $uri)[0];
         $parts = explode('/',$uri);
         array_shift($parts);
 

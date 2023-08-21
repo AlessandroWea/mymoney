@@ -7,7 +7,7 @@ use Alewea\Mymoney\core\Model;
 class Operation extends Model
 {
     static protected string $tableName = 'operations';
-    static public array $enabledCols = ['category_id', 'account_id', 'value', 'date'];
+    static public array $enabledCols = ['category_id', 'account_id', 'comment' ,'value', 'date'];
 
     public array $errors = [];
 
@@ -23,6 +23,11 @@ class Operation extends Model
         if(empty($data['value']))
         {
             $this->errors['value'] = 'Enter a value';
+        }
+
+        if(!empty($data['comment']) && strlen($data['comment']) > 128)
+        {
+            $this->errors['comment'] = 'Comment is too long!';
         }
 
         return empty($this->errors) ? true : false;

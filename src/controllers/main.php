@@ -97,7 +97,6 @@ class Main extends Controller
                 $this->redirect('main');
             }
         }
-
         $this->view('main/add', [
             'errors' => $operation->errors,
             'date' => $date,

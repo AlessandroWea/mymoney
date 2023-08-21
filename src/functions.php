@@ -16,3 +16,13 @@ function path($path)
 {
     return '/' . $path;
 }
+
+function selected($key, $val)
+{
+    if(isset($_POST[$key]) && $_POST[$key] == $val)
+    {
+        return ' selected ';
+    }
+
+    return '';
+}

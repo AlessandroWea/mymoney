@@ -102,6 +102,7 @@ class Database
                 category_id int NOT NULL,
                 account_id int NOT NULL,
                 value int NOT NULL,
+                comment varchar(128),
                 date DATE NOT NULL,
                 PRIMARY KEY (id)
             );

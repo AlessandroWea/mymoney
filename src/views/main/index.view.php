@@ -13,6 +13,7 @@
       <th scope="col">#</th>
       <th scope="col">Income/Expensis</th>
       <th scope="col">Category</th>
+      <th scope="col">Comment</th>
       <th scope="col">Value</th>
       <th scope="col">Actions</th>
     </tr>
@@ -25,19 +26,20 @@
           <th scope="row"><?=$num?></th>
           <td><?=$row['type'] ? 'Expensis' : 'Income'?></td>
           <td><?=$row['category_name']?></td>
+          <td><?=$row['comment']?></td>
           <td><?=$row['value']?></td>
           <td>
-                <a class="btn btn-primary" href="<?=path('main/edit/' . $row['id'])?>">Edit</a>
-                <a class="btn btn-danger" href="<?=path('main/delete/' . $row['id'])?>">Delete</a>
+                <a class="btn btn-primary m-1" href="<?=path('main/edit/' . $row['id'])?>">Edit</a>
+                <a class="btn btn-danger m-1" href="<?=path('main/delete/' . $row['id'])?>">Delete</a>
               </td>
         </tr>
       <?php endforeach; ?>
     <?php else: ?>
         <tr>
           <?php if(!empty($_SESSION['ACTIVE_ACCOUNT'])): ?>
-            <td colspan="5" class="text-center"><h2>There were no operations yet!</h2></td>
+            <td colspan="6" class="text-center"><h2>There were no operations yet!</h2></td>
           <?php else:?>
-            <td colspan="5" class="text-center"><h2>Add an account to start adding operations!</h2></td>
+            <td colspan="6" class="text-center"><h2>Add an account to start adding operations!</h2></td>
           <?php endif;?>
         </tr>
     <?php endif; ?>

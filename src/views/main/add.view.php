@@ -27,14 +27,14 @@
                     <span class="" id="inputGroup-sizing-default">Category</span>
                 </div>
                 <select name="category_id" class="op-select" aria-label="Default select example">
-                    <option value="" selected>Choose a category</option>
+                    <option value="" <?=!isset($_POST['category_id']) ? ' selected ' : ''?>>Choose a category</option>
                     <option disabled value="">INCOME</option>
                     <?php foreach($income_categories as $category): ?>
-                        <option value="<?=$category['id']?>"><?=$category['name']?></option>
+                        <option <?=selected('category_id', $category['id'])?> value="<?=$category['id']?>"><?=$category['name']?></option>
                     <?php endforeach;?>
                     <option disabled value="">EXPENSIS</option>
                     <?php foreach($expensis_categories as $category): ?>
-                        <option value="<?=$category['id']?>"><?=$category['name']?></option>
+                        <option <?=selected('category_id', $category['id'])?> value="<?=$category['id']?>"><?=$category['name']?></option>
                     <?php endforeach;?>
                 </select>
             </div>
@@ -46,7 +46,15 @@
                 <div class="info">
                     <span class="" id="inputGroup-sizing-default">Value</span>
                 </div>
-                <input name="value" class="op-select" type="number">
+                <input name="value" value="<?=post('value')?>" class="op-select" type="number">
+            </div>
+
+            <div class="form-group">
+                <label for="textareaComment">Comment (optional, max = 128 chars)</label>
+                <div class="text-danger">
+                    <?= isset($errors['comment']) ? $errors['comment'] : '' ?>
+                </div>
+                <textarea name="comment" class="form-control" id="textareaComment" rows="3"><?=post('comment')?></textarea>
             </div>
    
             <div style class="input-group mt-2">

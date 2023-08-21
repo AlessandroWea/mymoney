@@ -4,6 +4,7 @@ namespace Alewea\Mymoney\controllers;
 
 use Alewea\Mymoney\core\Controller;
 use Alewea\Mymoney\core\Auth;
+use Alewea\Mymoney\core\Pager;
 use Alewea\Mymoney\models\Account;
 use Alewea\Mymoney\models\Category;
 use Alewea\Mymoney\models\Operation;
@@ -33,33 +34,42 @@ class Main extends Controller
             }
         }
 
+        $operation->limit = 5;
+        $pager = new Pager($operation->limit);
+        $operation->offset = $pager->offset;
+
         if(!empty($_SESSION['ACTIVE_ACCOUNT']))
         {
             $data = $operation->get_with_category($_SESSION['ACTIVE_ACCOUNT']['id'], $date);
         }
 
-        $total_income = $this->get_total(Category::$TYPE_INCOME, $data);
-        $total_expensis = $this->get_total(Category::$TYPE_EXPENSIS, $data);
+        // do not show pagination when there is definitely no other pages
+        $is_show_pagination = (count($data) < $operation->limit) ? false : true;
+
+        $end_date = date('Y-m-d', strtotime('+ 1 day', strtotime($date)));
+
+        $total_income = $this->get_total_value(Category::$TYPE_INCOME, $date, $end_date);
+        $total_expensis = $this->get_total_value(Category::$TYPE_EXPENSIS, $date, $end_date);
+
         $this->view('main/index', [
             'rows' => $data,
             'total_income' => $total_income,
             'total_expensis' => $total_expensis,
             'date' => $date,
             'page_name' => 'main',
-
+            'pager' => $pager,
+            'is_show_pagination' => $is_show_pagination,
         ]);
     }
 
-    public function get_total($type, $data)
+    public function get_total_value($type, $start_date, $end_date)
     {
+        $operation = new Operation;
+        $rows = $operation->get_total_value_by_categories($_SESSION['ACTIVE_ACCOUNT']['id'], $type, $start_date, $end_date);
         $sum = 0;
-
-        foreach($data as $row)
+        foreach($rows as $row)
         {
-            if($row['type'] == $type)
-            {
-                $sum += $row['value'];
-            }
+            $sum += $row['value'];
         }
 
         return $sum;

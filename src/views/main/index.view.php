@@ -45,6 +45,7 @@
     <?php endif; ?>
   </tbody>
 </table>
+<?php $is_show_pagination ? $pager->display() : '';?>
 <?php if(!empty($_SESSION['ACTIVE_ACCOUNT'])): ?>
   <a href="<?=path('main/add');?>" class="btn btn-success" style="width:100px"type="button">Add</a>
 <?php else:?>

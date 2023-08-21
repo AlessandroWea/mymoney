@@ -9,6 +9,9 @@ class Model extends Database
     static protected string $tableName = 'unknown_table';
     static protected array $enabledCols = [];
 
+    public int $limit = 100;
+    public int $offset = 0;
+
     public function validate($data)
     {
         return true;
@@ -28,7 +31,7 @@ class Model extends Database
 
     public function findAll()
     {
-        $sql = 'SELECT * FROM ' . static::$tableName;
+        $sql = 'SELECT * FROM ' . static::$tableName . ' limit ' . $this->limit . ' offset ' . $this->offset;
         $ret = $this->query($sql);
 
         return $ret->fetchAll();
@@ -44,6 +47,8 @@ class Model extends Database
         }
 
         $sql = trim($sql, ' AND');
+        $sql .= ' limit ' . $this->limit . ' offset ' . $this->offset;
+
         $ret = $this->query($sql, $arr);
         return $ret->fetchAll();
     }
@@ -58,6 +63,7 @@ class Model extends Database
         }
 
         $sql = trim($sql, ' AND');
+        $sql .= ' limit ' . $this->limit . ' offset ' . $this->offset;
         $ret = $this->query($sql, $arr);
         return $ret->fetch();
     }

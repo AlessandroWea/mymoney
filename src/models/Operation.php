@@ -40,7 +40,8 @@ class Operation extends Model
                 JOIN categories
                 ON operations.category_id = categories.id
                 WHERE operations.account_id = :account_id AND
-                      operations.date = :date';
+                      operations.date = :date
+                LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 
         $ret = $this->query($sql, [
             'account_id' => $account_id,

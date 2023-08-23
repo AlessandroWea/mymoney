@@ -23,7 +23,7 @@ class Signup extends Controller
                 $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
                 //adding a new user to the database
-                $_POST['role'] = Auth::$USER;
+                $_POST['role'] = Auth::USER;
                 $user_id = $user->add($_POST);
 
                 // create the first account for a new user

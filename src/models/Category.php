@@ -19,4 +19,22 @@ class Category extends Model
         return $type == 'income' ? self::$TYPE_INCOME : self::$TYPE_EXPENSIS;
     }
 
+    public function validate($data)
+    {
+        if(empty($data['name']))
+        {
+            $this->errors['name'] = 'Name must not be empty!';
+        }
+
+        if(!isset($data['type']))
+        {
+            $this->errors['type'] = 'Type must be chosen!';
+        } else if($data['type'] != self::$TYPE_INCOME && $data['type'] != self::$TYPE_EXPENSIS)
+        {
+            $this->errors['type'] = 'Invalid type';
+        }
+
+        return empty($this->errors) ? true : false;
+    }
+
 }

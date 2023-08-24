@@ -25,12 +25,17 @@ class Login extends Controller
                 {
                     if(password_verify($_POST['password'], $user_row['password']))
                     {
-                        $_SESSION['USER'] = $user_row;
-                        //finds the first user's account and makes it the main one
-                        $_SESSION['ACTIVE_ACCOUNT'] = $account->first([
-                            'user_id' => $user_row['id'],
-                        ]);
-                        $this->redirect('main');
+                        if(!$user_row['banned'])
+                        {
+                            $_SESSION['USER'] = $user_row;
+                            //finds the first user's account and makes it the main one
+                            $_SESSION['ACTIVE_ACCOUNT'] = $account->first([
+                                'user_id' => $user_row['id'],
+                            ]);
+                            $this->redirect('main');
+                        }
+  
+                        $this->redirect('login');
                     }
                 }
             }

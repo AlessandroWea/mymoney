@@ -2,39 +2,16 @@
 
  $this->view('admin/header', compact('page_name'));?>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Categories</h1>
-          </div><!-- /.col -->
-          <!-- <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
-          </div>/.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-
       <div class="row">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+               <a class="btn btn-warning" href="/admin/categories/add">Add</a>
 
-                <div class="card-tools">
+                <form method="get" class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <input type="text" value="<?=get('search');?>" name="search" class="form-control float-right" placeholder="Search">
 
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-default">
@@ -42,7 +19,8 @@
                       </button>
                     </div>
                   </div>
-                </div>
+
+                </form>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
@@ -52,6 +30,8 @@
                       <th>ID</th>
                       <th>Type</th>
                       <th>Name</th>
+                      <th>Active</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -60,6 +40,15 @@
                       <td><?=$row['id']?></td>
                       <td><?=$row['type'] ? 'Income' : 'Expensis'?></td>
                       <td><?=$row['name']?></td>
+                      <td><?=$row['disabled'] ? 'No' : 'Yes'?></td>
+                      <td>
+                        <a class="btn btn-primary" href="/admin/categories/edit/<?=$row['id']?>">Edit</a>
+                        <?php if($row['disabled']): ?>
+                          <a class="btn btn-danger" href="/admin/categories/enable/<?=$row['id']?>">Enable</a>
+                        <?php else: ?>
+                          <a class="btn btn-danger" href="/admin/categories/disable/<?=$row['id']?>">Disable</a>
+                        <?php endif;?>
+                      </td>
                     </tr>
                     <?php endforeach; ?>
                   </tbody>
@@ -68,21 +57,12 @@
               <!-- /.card-body -->
 
             </div>
-            <?php $pager->display(); ?>
+            <?php $pager->display(['search' => $search]); ?>
 
             <!-- /.card -->
           </div>
         </div>
        
-      </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+
 <?php $this->view('admin/footer');?>

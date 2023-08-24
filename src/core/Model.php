@@ -113,4 +113,20 @@ class Model extends Database
 
         return $ret;
     }
+
+    public function search($fields, $search)
+    {
+        $sql = 'SELECT * FROM ' . static::$tableName . ' WHERE ';
+        $search = '%' . $search . '%';
+        $str = '';
+        foreach($fields as $field)
+        {
+            $str .= $field . ' LIKE :search OR ';
+        }
+        $str = trim($str, ' OR ');
+        $sql .= $str;
+        $sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
+        $ret = $this->query($sql, ['search' => $search]);
+        return $ret->fetchAll();
+    }
 }

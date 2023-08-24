@@ -13,10 +13,15 @@ class App
         $uri = explode('?', $uri)[0];
         $parts = explode('/',$uri);
         array_shift($parts);
-
+        $module = '';
         $controller_name = $this->default_controller;
         $method_name = $this->default_method;
         if($parts[0] != ''){
+            if($parts[0] == 'admin'){
+                $module = 'admin\\';
+                array_shift($parts);
+            }
+
             if(count($parts) < 2){
                 $controller_name = array_shift($parts);
             }else {
@@ -24,11 +29,12 @@ class App
                 $method_name = array_shift($parts);
             }
 
-        }
 
+        }
         try
         {
-            $reflectionObject = new \ReflectionClass('Alewea\Mymoney\controllers\\' . $controller_name);
+            // dd(class_exists('Alewea\Mymoney\controllers\\' . $controller_name) ?? 'doesnt');
+            $reflectionObject = new \ReflectionClass('Alewea\Mymoney\controllers\\' . $module . $controller_name);
             $object = $reflectionObject->newInstanceArgs();
             $method = $reflectionObject->getMethod($method_name);
 
@@ -38,18 +44,19 @@ class App
                 $beforeMethod->invokeArgs($object, [['method' => $method_name]]);
             }
 
-            if(!empty($parts[0])){
-                return $method->invokeArgs($object, $parts ?? []);
-            }
-            else
-            {
-                return $method->invoke($object);   
-            }
+            return $method->invokeArgs($object, $parts ?? []);
         }
         catch(\ReflectionException $e)
         {
             echo '<h1>404 Not found</h1>';
             echo '<p>' . $e->getMessage() . '</p>';
+            //show 404 error page
+            die;
+        }
+        catch(\Error $er)
+        {
+            echo '<h1>404 Not found</h1>';
+            echo '<p>' . $er->getMessage() . '</p>';
             //show 404 error page
             die;
         }

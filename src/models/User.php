@@ -11,6 +11,30 @@ class User extends Model
 
     public array $errors = [];
 
+    public function getAmigos()
+    {
+        $sql = '(SELECT users.id, users.username FROM users JOIN amigos on amigos.user2_id = users.id WHERE amigos.user1_id = :user_id ANd amigos.accepted = 1) UNION (SELECT users.id, users.username FROM users JOIN amigos on amigos.user1_id = users.id WHERE amigos.user2_id = :user_id ANd amigos.accepted = 1)';
+        return $this->query($sql, [
+            'user_id' => $_SESSION['USER']['id'],
+        ])->fetchAll();
+    }
+
+    public function getRequestsAmigos()
+    {
+        $sql = 'SELECT users.id, users.username FROM users JOIN amigos on amigos.user2_id = users.id WHERE amigos.user1_id = :user_id ANd amigos.accepted = 0';
+        return $this->query($sql, [
+            'user_id' => $_SESSION['USER']['id'],
+        ])->fetchAll();  
+    }
+
+    public function getRequestYouAmigos()
+    {
+        $sql = 'SELECT users.id, users.username FROM users JOIN amigos on amigos.user1_id = users.id WHERE amigos.user2_id = :user_id ANd amigos.accepted = 0';
+        return $this->query($sql, [
+            'user_id' => $_SESSION['USER']['id'],
+        ])->fetchAll();   
+    }
+
     public function validate($data)
     {
         $this->errors = [];

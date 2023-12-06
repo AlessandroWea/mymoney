@@ -10,3 +10,5 @@ define('DB_USER', 'alex');
 define('DB_PWD', '12345');
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'mymoney');
+
+date_default_timezone_set('Asia/Vladivostok');

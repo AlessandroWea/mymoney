@@ -14,6 +14,13 @@
     </style>
 </head>
 <body>
+
+<?php
+use Alewea\Mymoney\models\Message;
+$messageModel = new Message();
+  $messagesCount = $messageModel->getUnreadMessagesCount($_SESSION['USER']['id']);
+?>
+
 <div class="container-fluid">
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-1">
     <a class="navbar-brand" href="#">Mymoney</a>
@@ -33,8 +40,22 @@
             <li class="nav-item <?=$page_name == 'wallet' ? 'active' : ''?>">
               <a class="nav-link" href="<?=path('wallet');?>">Wallet</a>
             </li>
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Amigos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="<?=path('amigos?type=requests')?>">Your requests</a>
+                      <a class="dropdown-item" href="<?=path('amigos?type=requestyou')?>">Requests for you</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="<?=path('amigos')?>">View amigos</a>
+                    </div>
+                  </li>
             <li class="nav-item <?=$page_name == 'settings' ? 'active' : ''?>">
               <a class="nav-link" href="<?=path('settings');?>">Settings</a>
+            </li>
+            <li class="nav-item <?=$page_name == 'messages' ? 'active' : ''?>">
+              <a class="nav-link" href="<?=path('messages');?>">Messages <span style="color: red;">(<?=$messagesCount?>)</span></a>
             </li>
             <li class="ml-auto float-end">
               <a class="nav-link" href="<?=path('logout');?>">Exit</a>

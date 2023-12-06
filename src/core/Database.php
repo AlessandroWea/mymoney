@@ -36,6 +36,13 @@ class Database
     {
         $db = Database::connect();
         $query = $db->prepare($sql);
+        // dd($arr);
+        // if(isset($arr['cur_id']))
+        // {
+        //     $arr = ['cur_id' => 1];
+        //       dd($arr);
+      
+        // }
         $query->execute($arr);
         $errInfo = $query->errorInfo();
         if($errInfo[0] !== PDO::ERR_NONE)

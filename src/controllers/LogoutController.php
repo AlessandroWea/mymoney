@@ -4,9 +4,9 @@ namespace Alewea\Mymoney\controllers;
 
 use Alewea\Mymoney\core\Controller;
 
-class Logout extends Controller
+class LogoutController extends Controller
 {
-    public function index()
+    public function actionIndex()
     {
         session_unset();
         session_destroy();

@@ -8,14 +8,14 @@ use Alewea\Mymoney\core\Database;
 use Alewea\Mymoney\models\Account;
 use Alewea\Mymoney\models\Operation;
 
-class Wallet extends Controller
+class WalletController extends Controller
 {
     public function runBefore()
     {
         Auth::logged_in() ? true : $this->redirect('login');
     }
 
-    public function index()
+    public function actionIndex()
     {
         dd($_SESSION['ACTIVE_ACCOUNT']);
         $account = new Account();
@@ -36,7 +36,7 @@ class Wallet extends Controller
         ]);
     }
 
-    public function add()
+    public function actionAdd()
     {
         $errors = [];
         $account = new Account();
@@ -67,7 +67,7 @@ class Wallet extends Controller
         ]);
     }
 
-    public function edit($id = null)
+    public function actionEdit($id = null)
     {
         $errors = [];
         $account = new Account();
@@ -96,7 +96,7 @@ class Wallet extends Controller
         ]);
     }
 
-    public function delete($id = null)
+    public function actionDelete($id = null)
     {
         $account = new Account();
         $row = $account->first([
@@ -142,7 +142,7 @@ class Wallet extends Controller
         ]);
     }
 
-    public function switch($id = null)
+    public function actionSwitch($id = null)
     {
         $account = new Account;
         $row = $account->first([

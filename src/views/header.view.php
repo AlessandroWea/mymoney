@@ -15,10 +15,14 @@
 </head>
 <body>
 
-<?php
+<?php 
 use Alewea\Mymoney\models\Message;
-$messageModel = new Message();
-  $messagesCount = $messageModel->getUnreadMessagesCount($_SESSION['USER']['id']);
+
+if(Alewea\Mymoney\core\Auth::logged_in())
+{
+  $messageModel = new Message();
+    $messagesCount = $messageModel->getUnreadMessagesCount($_SESSION['USER']['id']);
+}
 ?>
 
 <div class="container-fluid">

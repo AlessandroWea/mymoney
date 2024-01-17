@@ -9,7 +9,7 @@ use Alewea\Mymoney\models\Account;
 use Alewea\Mymoney\models\Category;
 use Alewea\Mymoney\models\Operation;
 
-class Main extends Controller
+class MainController extends Controller
 {
     public function runBefore($extra)
     {
@@ -19,7 +19,7 @@ class Main extends Controller
             $this->redirect('main');
     }
 
-    public function index()
+    public function actionIndex()
     {
         $operation = new Operation();
         $data = [];
@@ -75,7 +75,7 @@ class Main extends Controller
         return $sum;
     }
 
-    public function add()
+    public function actionAdd()
     {
         $operation = new Operation();
         $account = new Account();
@@ -116,7 +116,7 @@ class Main extends Controller
         ]);
     }
 
-    public function edit($id = null)
+    public function actionEdit($id = null)
     {
         $category = new Category;
         $account = new Account;
@@ -167,7 +167,7 @@ class Main extends Controller
         }
     }
 
-    public function delete($id = null)
+    public function actionDelete($id = null)
     {
         $category = new Category;
         $account = new Account;

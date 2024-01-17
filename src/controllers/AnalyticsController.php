@@ -7,7 +7,7 @@ use Alewea\Mymoney\models\Category;
 use Alewea\Mymoney\models\Operation;
 use Alewea\Mymoney\core\Auth;
 
-class Analytics extends Controller
+class AnalyticsController extends Controller
 {
     public array $date_types = [
         'this-month', 'last-month', 'this-year', 'last-year', 'all'
@@ -18,14 +18,14 @@ class Analytics extends Controller
         Auth::logged_in() ? true : $this->redirect('login');
     }
 
-    public function index()
+    public function actionIndex()
     {
         $page_name = 'analytics';
 
         $this->view('analytics/index', compact('page_name'));
     }
 
-    public function overview($type = '')
+    public function actionOverview($type = '')
     {
         if(empty($type)) {$this->redirect('analytics');}
 

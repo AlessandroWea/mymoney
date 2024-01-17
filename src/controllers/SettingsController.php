@@ -6,14 +6,14 @@ use Alewea\Mymoney\core\Controller;
 use Alewea\Mymoney\core\Auth;
 use Alewea\Mymoney\models\User;
 
-class Settings extends Controller
+class SettingsController extends Controller
 {
     public function runBefore()
     {
         Auth::logged_in() ? true : $this->redirect('login');
     }
 
-    public function index()
+    public function actionIndex()
     {
         $arr = [];
         $errors = [];

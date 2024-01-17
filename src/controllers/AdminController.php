@@ -8,14 +8,14 @@ use Alewea\Mymoney\core\Pager;
 use Alewea\Mymoney\models\Category;
 use Alewea\Mymoney\models\User;
 
-class Admin extends Controller
+class AdminController extends Controller
 {
     public function runBefore()
     {
         // if(!Auth::isAdmin())
         //     $this->redirect('main');
     }
-    public function users()
+    public function actionUsers()
     {
         $user = new User;
         $pager = new Pager(2);
@@ -30,7 +30,7 @@ class Admin extends Controller
         ]);
     }
 
-    public function categories()
+    public function actionCategories()
     {
         $category = new Category;
         $pager = new Pager(2);

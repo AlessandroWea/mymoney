@@ -7,9 +7,9 @@ use Alewea\Mymoney\models\Conversation;
 use Alewea\Mymoney\models\User;
 use Alewea\Mymoney\models\Message;
 
-class Messages extends Controller
+class MessagesController extends Controller
 {
-    public function index()
+    public function actionIndex()
     {
         $conversation = new Conversation();
         $conversationUsers = $conversation->getConversationCardData($_SESSION['USER']['id']);
@@ -18,7 +18,7 @@ class Messages extends Controller
         ]);
     }
 
-    public function single($id = null)
+    public function actionSingle($id = null)
     {
         //get with whom messaging
         $conversationModel = new Conversation();

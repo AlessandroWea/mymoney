@@ -6,9 +6,9 @@ use Alewea\Mymoney\core\Controller;
 use Alewea\Mymoney\models\Account;
 use Alewea\Mymoney\models\User;
 
-class Login extends Controller
+class LoginController extends Controller
 {
-    public function index()
+    public function actionIndex()
     {
         $user = new User();
         $account = new Account();

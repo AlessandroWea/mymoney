@@ -6,9 +6,9 @@ use Alewea\Mymoney\core\Controller;
 use Alewea\Mymoney\models\User;
 use Alewea\Mymoney\models\Amigos as AmigosModel;
 
-class Amigos extends Controller
+class AmigosController extends Controller
 {
-    public function index()
+    public function actionIndex()
     {
         $page_name = 'amigos';
         $type = $_GET['type'] ?? 'index';
@@ -36,7 +36,7 @@ class Amigos extends Controller
         $this->view('amigos/' . $view_file, compact('page_name','rows'));
     }
 
-    public function remove()
+    public function actionRemove()
     {
         $i = file_get_contents('php://input');
         $a = json_decode($i);
@@ -65,7 +65,7 @@ class Amigos extends Controller
         ]);
     }
 
-    public function accept()
+    public function actionAccept()
     {
         $i = file_get_contents('php://input');
         $a = json_decode($i);
@@ -87,7 +87,7 @@ class Amigos extends Controller
         ]);
     }
 
-    public function request()
+    public function actionRequest()
     {
         $i = file_get_contents('php://input');
         $a = json_decode($i);

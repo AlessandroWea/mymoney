@@ -4,8 +4,8 @@ namespace Alewea\Mymoney\core;
 
 class App
 {
-    public string $default_controller = 'main';
-    public string $default_method = 'index';
+    public string $default_controller = 'MainController';
+    public string $default_method = 'actionIndex';
 
     public function run()
     {
@@ -23,12 +23,12 @@ class App
             }
 
             if(count($parts) < 2){
-                $controller_name = array_shift($parts);
+                $controller_name = ucfirst(array_shift($parts));
             }else {
-                $controller_name = array_shift($parts);
-                $method_name = array_shift($parts);
+                $controller_name = ucfirst(array_shift($parts));
+                $method_name = 'action' . ucfirst(array_shift($parts));
             }
-
+            $controller_name .= 'Controller';
 
         }
         try

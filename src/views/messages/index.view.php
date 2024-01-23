@@ -23,13 +23,13 @@
 
    <div id="amigos-container" class="row">
 
-<?php foreach($rows as $row): ?>
+<?php foreach($rows as $row): $partner = $row['partner'] ?>
          <a href="/messages/single/<?=$row['conversation_id']?>" id="c" class="amigo-card card w-100 m-1">
             <div class="car d-flex">
                <img src="money-bill-solid.svg" width="100px" alt="">
                <div class="card-body">
-                  <h5 class="card-title"><?=$row['username']?></h5>
-                  <p><?=$row['message_data']['id'] == $row['id'] ? $row['username'] : 'You'?>: <?=$row['message_data']['message']?></p>
+                  <h5 class="card-title"><?=$partner['username']?></h5>
+                  <p><?=$row['message_data']['id_user'] == $partner['id'] ? $partner['username'] : 'You'?>: <?=$row['message_data']['message']?></p>
                </div>
             </div> 
          </a>

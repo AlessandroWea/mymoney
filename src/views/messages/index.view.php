@@ -24,7 +24,7 @@
    <div id="amigos-container" class="row">
 
 <?php foreach($rows as $row): $partner = $row['partner'] ?>
-         <a href="/messages/single/<?=$row['conversation_id']?>" id="c" class="amigo-card card w-100 m-1">
+         <a href="/messages/single/<?=$row['id']?>" id="c" class="amigo-card card w-100 m-1">
             <div class="car d-flex">
                <img src="money-bill-solid.svg" width="100px" alt="">
                <div class="card-body">

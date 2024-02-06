@@ -24,7 +24,6 @@ class MessagesController extends Controller
         $conversationModel = new Conversation();
         $userModel = new User();
         $messageModel = new Message();
-
         if($this->isPost())
         {
             $message = $_POST['message'];

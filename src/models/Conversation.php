@@ -47,6 +47,7 @@ class Conversation extends Model
 
         foreach ($convers as &$conver) {
             $conver['message_data'] = $this->getLastMessageData($conver['id']);
+            $conver['message_data']['unread_count'] = $this->getUnreadMessagesCount($conver['id']);
             // dd($conver['message_data']);
         }
 
@@ -58,5 +59,13 @@ class Conversation extends Model
         $sql = 'SELECT id_user, message FROM messages WHERE id_conversation = :conv_id order by date DESC LIMIT 1';
         $ret = $this->query($sql, ['conv_id' => $conversation_id]);
         return $ret->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function getUnreadMessagesCount(int $conversation_id)
+    {
+        $current_user_id = $_SESSION['USER']['id'];
+        $sql = 'SELECT count(*) FROM messages WHERE id_conversation = :conv_id AND id_user != :current_user_id AND is_read = 0';
+        $ret = $this->query($sql, ['conv_id' => $conversation_id, 'current_user_id' => $current_user_id]);
+        return $ret->fetchColumn();
     }
 }

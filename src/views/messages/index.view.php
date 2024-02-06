@@ -28,7 +28,7 @@
             <div class="car d-flex">
                <img src="money-bill-solid.svg" width="100px" alt="">
                <div class="card-body">
-                  <h5 class="card-title"><?=$partner['username']?></h5>
+                  <h5 class="card-title"><?=$partner['username']?> (<?=$row['message_data']['unread_count']?>)</h5>
                   <p><?=$row['message_data']['id_user'] == $partner['id'] ? $partner['username'] : 'You'?>: <?=$row['message_data']['message']?></p>
                </div>
             </div> 

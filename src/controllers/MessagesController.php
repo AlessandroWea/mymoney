@@ -41,6 +41,18 @@ class MessagesController extends Controller
         }
 
         $convers = $conversationModel->first(['id'=>$id]);
+
+        // if not found try to ccreate a new conversation
+        if(!$convers)
+        {
+            // check if the user by this ID exists
+            if($userModel->first(['id'=>$id]))
+            {
+                $conversId = $conversationModel->add(['id_user1'=> $_SESSION['USER']['id'], 'id_user2' => $id]);
+                $convers = $conversationModel->first(['id'=>$conversId]);
+            }
+        }
+
         if($convers['id_user1'] == $_SESSION['USER']['id'])
         {
             $partner_id = $convers['id_user2'];

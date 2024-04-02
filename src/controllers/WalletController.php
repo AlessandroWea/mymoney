@@ -7,20 +7,47 @@ use Alewea\Mymoney\core\Controller;
 use Alewea\Mymoney\core\Database;
 use Alewea\Mymoney\models\Account;
 use Alewea\Mymoney\models\Operation;
+use Alewea\Mymoney\models\Permission;
+use Alewea\Mymoney\models\User;
 
 class WalletController extends Controller
 {
     public function runBefore()
     {
+        // (new Database())->create_permissions_table();
         Auth::logged_in() ? true : $this->redirect('login');
     }
 
-    public function actionIndex()
+    public function actionIndex(int $id = null)
     {
-        dd($_SESSION['ACTIVE_ACCOUNT']);
+        $viewmode = 0;
+        $viewId = $_SESSION['USER']['id'];
+        $guestUsername = '';
+        $permissionModel = new Permission();
+        $userModel = new User();
+        //viewmodee
+        if($id != null)
+        {
+            $viewmode = 1;
+            //check if the user has a permission to watch this
+            $permission = $permissionModel->first([
+                'user1_id' => $_SESSION['USER']['id'],
+                'user2_id' => $id,
+                'permission' => Permission::WALLET_PERMISSION,
+            ]);
+
+            if($permission['active'] != 1)
+            {
+                $this->redirect('wallet');
+            }
+
+            $viewId = $id;
+            $guestUsername = $userModel->getUsername($id);
+        }
+
         $account = new Account();
         $accounts = $account->where([
-            'user_id' => $_SESSION['USER']['id'],
+            'user_id' => $viewId,
         ]);
         
         $net = 0;
@@ -33,6 +60,8 @@ class WalletController extends Controller
             'accounts' => $accounts,
             'net' => $net,
             'page_name' => 'wallet',
+            'viewmode' => $viewmode,
+            'guestUsername' => $guestUsername,
         ]);
     }
 

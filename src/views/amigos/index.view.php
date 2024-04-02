@@ -57,7 +57,8 @@
             <div class="card-body">
                <h5 class="card-title"><?=$row['username']?></h5>
                <div class="btns">
-                  <button class="btn btn-sm btn-primary">Message</button>
+                  <button data-type="message" data-id="<?=$row['id']?>" class="btn btn-sm btn-primary">Message</button>
+                  <button data-type="wallet" data-id="<?=$row['id']?>" class="btn btn-sm btn-primary">Wallet</button>
                   <button data-type="remove" data-id="<?=$row['id']?>" class="btn btn-sm btn-danger">Remove</button>
                </div>
             </div>
@@ -100,8 +101,16 @@ window.onload = () => {
                   alert("Запрос не удался");
                });          
          }
-
- 
+      }
+      else if(event.target.dataset.type == 'wallet'){
+         let userid = event.target.dataset.id;
+         let pathname = '/wallet/index/' + userid;
+         window.location.pathname = pathname;
+      }
+      else if(event.target.dataset.type == 'message'){
+         let userid = event.target.dataset.id;
+         let pathname = '/messages/single/' + userid;
+         window.location.pathname = pathname;
       }
    });
 

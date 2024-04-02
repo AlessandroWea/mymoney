@@ -2,6 +2,9 @@
 <div class="container d-flex flex-column mt-2">
     <div class="text-center">
         <H1>Wallet</H1>
+        <?php if($viewmode):?>
+            <h2>User: <?=$guestUsername?></h2>
+        <?php endif;?>
         <h4>Net: <?=$net?> rub</h4>
     </div>
 
@@ -11,7 +14,9 @@
       <th scope="col">#</th>
       <th scope="col">Name</th>
       <th scope="col">Value</th>
-      <th scope="col">Actions</th>
+      <?php if(!$viewmode):?>
+        <th scope="col">Actions</th>
+      <?php endif;?>
     </tr>
   </thead>
   <tbody>
@@ -21,13 +26,15 @@
               <th scope="row"><?=$num;?></th>
               <td><?=$account['name']?></td>
               <td><?=$account['value']?> rub</td>
-              <td>
-                <a class="btn btn-primary" href="<?=path('wallet/edit/' . $account['id'])?>">Edit</a>
-                <a class="btn btn-danger" href="<?=('wallet/delete/' . $account['id'])?>">Delete</a>
-                <?php if($_SESSION['ACTIVE_ACCOUNT']['id'] !== $account['id']): ?>
-                    <a class="btn btn-secondary" href="<?=path('wallet/switch/' . $account['id'])?>">Switch to</a>
-                <?php endif; ?>
-              </td>
+              <?php if(!$viewmode): ?>
+                  <td>
+                    <a class="btn btn-primary" href="<?=path('wallet/edit/' . $account['id'])?>">Edit</a>
+                    <a class="btn btn-danger" href="<?=('wallet/delete/' . $account['id'])?>">Delete</a>
+                    <?php if($_SESSION['ACTIVE_ACCOUNT']['id'] !== $account['id']): ?>
+                        <a class="btn btn-secondary" href="<?=path('wallet/switch/' . $account['id'])?>">Switch to</a>
+                    <?php endif; ?>
+                  </td>
+              <?php endif;?>
           </tr>
       <?php endforeach; ?>
     <?php else: ?>
@@ -37,8 +44,10 @@
     <?php endif; ?>
   </tbody>
 </table>
-   <div class="text-center">
-        <a class="btn btn-success pr-4 pl-4" href="<?=path('wallet/add')?>">+</a>
-   </div>
+    <?php if(!$viewmode): ?>
+       <div class="text-center">
+            <a class="btn btn-success pr-4 pl-4" href="<?=path('wallet/add')?>">+</a>
+       </div>
+    <?php endif;?>
 </div>
 <?php $this->view('footer');?>

@@ -8,16 +8,10 @@ use Alewea\Mymoney\models\User;
 class Conversation extends Model
 {
     static protected string $tableName = 'conversation';
-    static public array $enabledCols = ['id_user1, id_user2'];
+    static public array $enabledCols = ['id_user1', 'id_user2'];
+    
     public function getConversationCardData($id)
     {
-        // $sql = 'SELECT users.id, users.username, conversation.id as conversation_id
-        //         FROM users
-        //         JOIN conversation
-        //             ON users.id = IF(conversation.id_user1 = :cur_id, conversation.id_user2, conversation.id_user1)
-        //         WHERE conversation.id_user1 = :cur_id
-        //             OR conversation.id_user2 = :cur_id';
-
         $user = new User;
 
         //get all the conversations of the current user
@@ -41,14 +35,9 @@ class Conversation extends Model
             }
         }
 
-        // $ret = $this->query($sql, ['cur_id' => $id]);
-
-        // $rows = $ret->fetchAll(\PDO::FETCH_ASSOC);
-
         foreach ($convers as &$conver) {
             $conver['message_data'] = $this->getLastMessageData($conver['id']);
             $conver['message_data']['unread_count'] = $this->getUnreadMessagesCount($conver['id']);
-            // dd($conver['message_data']);
         }
 
         return $convers;

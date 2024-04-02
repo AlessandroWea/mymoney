@@ -117,4 +117,21 @@ class Database
 
         $this->query($query);
     }
+
+    public function create_permissions_table()
+    {
+        $query = "
+            DROP TABLE IF EXISTS permissions; CREATE TABLE permissions (
+                id int NOT NULL AUTO_INCREMENT,
+                user1_id int NOT NULL,
+                user2_id int NOT NULL,
+                permission tinyint(1) NOT NULL,
+                active tinyint(1) NOT NULL,
+                PRIMARY KEY (id)
+            );
+        ";
+
+        $this->query($query);
+    }
+
 }

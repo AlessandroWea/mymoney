@@ -11,6 +11,14 @@ class User extends Model
 
     public array $errors = [];
 
+    public function getUsername(int $id)
+    {
+        $sql = 'SELECT username FROM users WHERE id = :id';
+        return $this->query($sql, [
+            'id' => $id,
+        ])->fetchColumn();
+    }
+
     public function getAmigos()
     {
         $sql = '(SELECT users.id, users.username FROM users JOIN amigos on amigos.user2_id = users.id WHERE amigos.user1_id = :user_id ANd amigos.accepted = 1) UNION (SELECT users.id, users.username FROM users JOIN amigos on amigos.user1_id = users.id WHERE amigos.user2_id = :user_id ANd amigos.accepted = 1)';

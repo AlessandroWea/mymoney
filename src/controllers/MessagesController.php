@@ -15,7 +15,26 @@ class MessagesController extends Controller
         $conversationUsers = $conversation->getConversationCardData($_SESSION['USER']['id']);
         $this->view('messages/index', [
             'rows' => $conversationUsers,
-        ]);
+        ]); 
+    }
+
+    public function actionRedirect($id = null)
+    {
+        $conversationModel = new Conversation();
+        $userModel = new User();
+        $messageModel = new Message();
+
+        $current_user_id = $_SESSION['USER']['id'];
+        $conver_id = $conversationModel->getId($current_user_id, $id);
+        if(!$conver_id)
+        {
+            if($userModel->first(['id'=>$id]))
+            {
+                $conver_id = $conversationModel->add(['id_user1'=> $_SESSION['USER']['id'], 'id_user2' => $id]);
+            }
+        }
+
+        $this->redirect('messages/single/' . $conver_id);
     }
 
     public function actionSingle($id = null)

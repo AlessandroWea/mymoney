@@ -43,6 +43,13 @@ class Conversation extends Model
         return $convers;
     }
 
+    public function getId($user1_id, $user2_id)
+    {
+        $sql = 'SELECT id FROM conversation WHERE (id_user1 = :id1 AND id_user2 = :id2) OR (id_user1 = :id2 AND id_user2 = :id1);';
+        $ret = $this->query($sql, ['id1'=>$user1_id, 'id2' => $user2_id]);
+        return $ret->fetchColumn();
+    }
+
     public function getLastMessageData(int $conversation_id)
     {
         $sql = 'SELECT id_user, message FROM messages WHERE id_conversation = :conv_id order by date DESC LIMIT 1';

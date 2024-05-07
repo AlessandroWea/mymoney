@@ -109,7 +109,7 @@ window.onload = () => {
       }
       else if(event.target.dataset.type == 'message'){
          let userid = event.target.dataset.id;
-         let pathname = '/messages/single/' + userid;
+         let pathname = '/messages/redirect/' + userid;
          window.location.pathname = pathname;
       }
    });

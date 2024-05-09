@@ -18,6 +18,50 @@ class MessagesController extends Controller
         ]); 
     }
 
+    public function actionCheck()
+    {
+        $i = file_get_contents('php://input');
+        $a = json_decode($i);
+        $userid = $a->userid;
+        $userModel = new User();
+        $user = $userModel->first(['id'=>$userid]);
+        
+        $conversationModel = new Conversation();
+        $messageModel = new Message();
+
+        $unreadMessage = $messageModel->first([
+            'id_conversation' => 12,
+            'is_read' => 0
+        ]);
+
+        if($unreadMessage)
+        {
+           $messageModel->updateWhere([
+                'id' => $unreadMessage['id']
+            ],
+            [
+                'is_read' => 1
+            ]);  
+
+
+            $this->json([
+                'type' => 'new',
+                'data' => [
+                    'message' => $unreadMessage['message'],
+                    'date' => $unreadMessage['date'],
+                    'username' => $user['username'],
+                    'id_user' => $user['id']
+                ],
+            ]);       
+        } else
+        {
+            $this->json([
+                'type' => 'none',
+                'data' => []
+            ]); 
+        }
+    }
+
     public function actionRedirect($id = null)
     {
         $conversationModel = new Conversation();

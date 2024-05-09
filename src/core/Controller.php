@@ -28,4 +28,9 @@ class Controller
     {
         return ($_SERVER['REQUEST_METHOD'] == 'POST');
     }
+
+    public function json($arr)
+    {
+        echo json_encode($arr);
+    }
 }

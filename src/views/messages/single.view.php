@@ -51,6 +51,38 @@
 
 </div>
 <?php $this->view('footer');?>
+
+<script>
+   window.onload = () => {
+      let list = document.querySelector('.list');
+      setInterval(function(){
+         let userid = <?=$user['id']?>;
+         let data = JSON.stringify({'userid' : userid});
+
+         request('POST', '/messages/check', data,
+            function(){ 
+               if (this.status != 200) { 
+                      alert(`Ошибка ${this.status}: ${this.statusText}`);
+                  } else { 
+                     let row = JSON.parse(this.responseText);
+                     console.log(JSON.parse(this.responseText)) 
+                     console.log(row.data);
+                     if(row.type == 'new')
+                     {
+                        element = document.createElement('div');
+                        element.innerHTML = `<span>${row.data.date}</span>
+                           <span>${row.data.id_user == userid ? row.data.username : 'you'}</span>
+                           <span>${row.data.message}</span>`;
+                        list.appendChild(element);
+                     }
+                  }
+            },
+            function(){
+               alert("Запрос не удался");
+            }); 
+      }, 1000)
+   }
+</script>
 <!-- 
 CREATE TABLE conversation (
    id int primary key auto_increment NOT NULL,

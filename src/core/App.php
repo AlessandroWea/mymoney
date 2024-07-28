@@ -10,6 +10,10 @@ class App
     public function run()
     {
         $uri = $_SERVER['REQUEST_URI'];
+        $is_json = false;
+        if(isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json')
+            $is_json = true;
+        // dd($_SERVER['HTTP_HEADERS']);die;
         $uri = explode('?', $uri)[0];
         $parts = explode('/',$uri);
         array_shift($parts);
@@ -48,17 +52,37 @@ class App
         }
         catch(\ReflectionException $e)
         {
-            echo '<h1>404 Not found</h1>';
-            echo '<p>' . $e->getMessage() . '</p>';
-            //show 404 error page
-            die;
+            if($is_json)
+            {
+                header('Content-type: application/json');
+
+                echo json_encode(['error' => $e->getMessage()]);  
+            }
+            else
+            {
+                echo '<h1>404 Not found</h1>';
+                echo '<p>' . $e->getMessage() . '</p>';
+                //show 404 error page
+                die;              
+            }
+
         }
         catch(\Error $er)
         {
-            echo '<h1>404 Not found</h1>';
-            echo '<p>' . $er->getMessage() . '</p>';
-            //show 404 error page
-            die;
+
+            if($is_json)
+            {
+                header('Content-type: application/json');
+
+                echo json_encode(['error' => $e->getMessage()]);  
+            }
+            else
+            {
+                echo '<h1>404 Not found</h1>';
+                echo '<p>' . $e->getMessage() . '</p>';
+                //show 404 error page
+                die;              
+            }
         }
 
     }

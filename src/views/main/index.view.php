@@ -54,7 +54,3 @@
 </div>
 <?php $this->view('footer');?>
 
-<script>
-  // document.getElementById('datePicker').valueAsDate = new Date();
-
-</script>

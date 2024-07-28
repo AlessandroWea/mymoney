@@ -12,7 +12,6 @@ class Message extends Model
 
     public function getUnreadMessagesCount(int $user_id)
     {
-        dd($user_id);
         $sql = 'SELECT count(*) 
                 FROM messages
                 JOIN conversation
@@ -28,5 +27,22 @@ class Message extends Model
         $rows = $ret->fetchColumn();
 
         return $rows;
+    }
+
+    public function getUnreadMessages(int $user_id)
+    {
+        $sql = 'SELECT * 
+                FROM messages
+                JOIN conversation
+                    ON messages.id_conversation = conversation.id
+                WHERE (conversation.id_user1 = :cur_id
+                    OR conversation.id_user2 = :cur_id)
+                    and messages.id_user != :cur_id
+                    and messages.is_read = 0
+                ';
+
+        $ret = $this->query($sql, ['cur_id' => $user_id]);
+
+        return $ret->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

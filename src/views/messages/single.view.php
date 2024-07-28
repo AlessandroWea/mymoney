@@ -57,7 +57,8 @@
       let list = document.querySelector('.list');
       setInterval(function(){
          let userid = <?=$user['id']?>;
-         let data = JSON.stringify({'userid' : userid});
+         let converid = <?=$id?>;
+         let data = JSON.stringify({'userid' : userid, 'converid' : converid});
 
          request('POST', '/messages/check', data,
             function(){ 

@@ -15,16 +15,6 @@
 </head>
 <body>
 
-<?php 
-use Alewea\Mymoney\models\Message;
-
-if(Alewea\Mymoney\core\Auth::logged_in())
-{
-  $messageModel = new Message();
-    $messagesCount = $messageModel->getUnreadMessagesCount($_SESSION['USER']['id']);
-}
-?>
-
 <div class="container-fluid">
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-1">
     <a class="navbar-brand" href="#">Mymoney</a>
@@ -59,7 +49,7 @@ if(Alewea\Mymoney\core\Auth::logged_in())
               <a class="nav-link" href="<?=path('settings');?>">Settings</a>
             </li>
             <li class="nav-item <?=$page_name == 'messages' ? 'active' : ''?>">
-              <a class="nav-link" href="<?=path('messages');?>">Messages <span style="color: red;">(<?=$messagesCount?>)</span></a>
+              <a class="nav-link" href="<?=path('messages');?>">Messages <span id="messagesCount" style="color: red;"></span></a>
             </li>
             <li class="ml-auto float-end">
               <a class="nav-link" href="<?=path('logout');?>">Exit</a>
@@ -76,3 +66,29 @@ if(Alewea\Mymoney\core\Auth::logged_in())
     </div>
   </nav>   
 </div>
+
+<script>
+<?php if(Alewea\Mymoney\core\Auth::logged_in()): ?>
+
+window.onload = () => {
+      let page_name = '<?=$page_name?>';
+      if(page_name != 'messages')
+      {
+        let messagesCount = document.querySelector('#messagesCount');
+
+        setInterval(function(){
+           let data = JSON.stringify({'page' : '<?=$page_name?>'});
+
+           request('POST', '/messages/check', data,
+              function(xhr, data){ 
+                   console.log(data) 
+
+                   messagesCount.textContent = '(' + data.count + ')';
+              })
+        }, 1000)
+      }
+      
+   }
+
+<?php endif;?>
+</script>

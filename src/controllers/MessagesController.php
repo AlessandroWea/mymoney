@@ -13,8 +13,10 @@ class MessagesController extends Controller
     {
         $conversation = new Conversation();
         $conversationUsers = $conversation->getConversationCardData($_SESSION['USER']['id']);
+        dd($conversationUsers);
         $this->view('messages/index', [
             'rows' => $conversationUsers,
+            'page_name' => 'messages'
         ]); 
     }
 
@@ -22,44 +24,81 @@ class MessagesController extends Controller
     {
         $i = file_get_contents('php://input');
         $a = json_decode($i);
-        $userid = $a->userid;
+
+        $page = $a->page;
+
         $userModel = new User();
-        $user = $userModel->first(['id'=>$userid]);
         
         $conversationModel = new Conversation();
         $messageModel = new Message();
 
-        $unreadMessage = $messageModel->first([
-            'id_conversation' => 12,
-            'is_read' => 0
-        ]);
-
-        if($unreadMessage)
+        if($page == 'messages')
         {
-           $messageModel->updateWhere([
-                'id' => $unreadMessage['id']
-            ],
-            [
-                'is_read' => 1
-            ]);  
+            $messages = $messageModel->getUnreadMessages($_SESSION['USER']['id']);
 
+            if(!empty($messages))
+            {
+                 $this->json([
+                    'type' => 'new',
+                    'data' => $messages,
+                ]);               
+            }
+            else
+            {
+                $this->json([
+                    'type' => 'none',
+                ]);
+            }
 
-            $this->json([
-                'type' => 'new',
-                'data' => [
-                    'message' => $unreadMessage['message'],
-                    'date' => $unreadMessage['date'],
-                    'username' => $user['username'],
-                    'id_user' => $user['id']
-                ],
-            ]);       
-        } else
-        {
-            $this->json([
-                'type' => 'none',
-                'data' => []
-            ]); 
         }
+        else if($page == 'single')
+        {
+            $userid = $a->userid;
+            $converid = $a->converid;
+            $user = $userModel->first(['id'=>$userid]);
+
+            $unreadMessage = $messageModel->first([
+                        'id_conversation' => $converid,
+                        'is_read' => 0
+            ]);
+
+            if($unreadMessage)
+            {
+               $messageModel->updateWhere([
+                    'id' => $unreadMessage['id']
+                ],
+                [
+                    'is_read' => 1
+                ]);  
+
+
+                $this->json([
+                    'type' => 'new',
+                    'data' => [
+                        'message' => $unreadMessage['message'],
+                        'date' => $unreadMessage['date'],
+                        'username' => $user['username'],
+                        'id_user' => $user['id']
+                    ],
+                ]);       
+            } else
+            {
+                $this->json([
+                    'type' => 'none',
+                    'data' => []
+                ]); 
+            }
+        }
+        else // all other pages
+        {
+            $count = $messageModel->getUnreadMessagesCount($_SESSION['USER']['id']);
+
+            $this->json([
+                'count' => $count
+            ]);
+        }
+
+        
     }
 
     public function actionRedirect($id = null)
@@ -77,7 +116,6 @@ class MessagesController extends Controller
                 $conver_id = $conversationModel->add(['id_user1'=> $_SESSION['USER']['id'], 'id_user2' => $id]);
             }
         }
-
         $this->redirect('messages/single/' . $conver_id);
     }
 
@@ -87,6 +125,7 @@ class MessagesController extends Controller
         $conversationModel = new Conversation();
         $userModel = new User();
         $messageModel = new Message();
+        $page_name = 'single';
         if($this->isPost())
         {
             $message = $_POST['message'];
@@ -102,7 +141,6 @@ class MessagesController extends Controller
 
             $this->redirect('messages/single/' . $id);
         }
-
         $convers = $conversationModel->first(['id'=>$id]);
 
         // if not found try to ccreate a new conversation
@@ -143,6 +181,8 @@ class MessagesController extends Controller
         $this->view('messages/single', [
             'messages' => $messages,
             'user' => $user,
+            'id' => $id,
+            'page_name' => $page_name   
         ]);
     }
 }
